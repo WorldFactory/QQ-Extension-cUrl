@@ -1,0 +1,15 @@
+{
+    "name": "worldfactory/qq-extension-curl",
+    "license": "MIT",
+    "type": "library",
+    "description": "Extends QQ with cUrl functionalities.",
+    "require": {
+        "php": "^7.2",
+        "worldfactory/qq": "^2.0",
+        "worldfactory/cookbook": "*",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {"WorldFactory\\QQ\\Extensions\\Curl\\": "src/"}
+    }
+}

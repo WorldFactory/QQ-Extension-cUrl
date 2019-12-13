@@ -1,0 +1,6 @@
+services:
+    qq.runner.curl:
+        parent: qq.runner.abstract
+        class: WorldFactory\QQ\Extensions\Curl\Services\CurlRunner
+        tags:
+            - { name: qq.runner, type: "curl" }
