@@ -52,6 +52,11 @@ class CurlRunner extends AbstractRunner
             'type' => 'string',
             'description' => "Data encoding. Accept 'json', 'url' or 'none'.",
             'default' => 'none'
+        ],
+        'security' => [
+            'type' => 'string',
+            'description' => "Security level. Accepted values : 'min', 'med', 'max'.",
+            'default' => 'med'
         ]
     ];
 
@@ -155,7 +160,6 @@ EOT;
 
         curl_setopt($request, CURLOPT_URL, $url);
 
-        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($request, CURLOPT_MAXREDIRS, 5);
         curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
@@ -201,6 +205,25 @@ EOT;
                 $method = 'POST';
             }
         }
+
+        switch ($options['security']) {
+            case 'min':
+                $verifyPeer = false;
+                $verifyHost = 0;
+                break;
+            case 'med':
+                $verifyPeer = false;
+                $verifyHost = 2;
+                break;
+            case 'max':
+                $verifyPeer = true;
+                $verifyHost = 2;
+                break;
+            default:
+                throw new Exception("Unknown security level : '{$options['security']}'.");
+        }
+        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, $verifyPeer);
+        curl_setopt($request, CURLOPT_SSL_VERIFYHOST, $verifyHost);
 
         curl_setopt($request, CURLOPT_VERBOSE, $options['debug']);
         curl_setopt($request, CURLOPT_TIMEOUT, $options['timeout']);
