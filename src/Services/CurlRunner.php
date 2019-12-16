@@ -155,6 +155,7 @@ EOT;
 
         curl_setopt($request, CURLOPT_URL, $url);
 
+        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($request, CURLOPT_MAXREDIRS, 5);
         curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
