@@ -48,6 +48,11 @@ class CurlRunner extends AbstractRunner
             'description' => "Increase CURL verbosity.",
             'default' => false
         ],
+        'strict' => [
+            'type' => 'bool',
+            'description' => "Throw error if request result is not HTTP 200.",
+            'default' => true
+        ],
         'encoding' => [
             'type' => 'string',
             'description' => "Data encoding. Accept 'json', 'url' or 'none'.",
@@ -237,7 +242,11 @@ EOT;
         curl_close($request);
 
         if ($code !== 200) {
-            throw new Exception("HTTP code #{$code} : " . self::HTTP_CODES[$code] );
+            if ($options['strict']) {
+                throw new Exception("HTTP code #{$code} : " . self::HTTP_CODES[$code]);
+            } else {
+                echo "HTTP code #{$code} : " . self::HTTP_CODES[$code] . PHP_EOL;
+            }
         }
 
         $length = strlen($output);
